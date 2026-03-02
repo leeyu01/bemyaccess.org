@@ -1,12 +1,12 @@
 # bemyaccess.org
 
-1. Project Overview
+Project Overview
 
-  1.1 Purpose
+1. Purpose
 
   Provide an accessible, screen-reader optimized local news and disability resource platform for individuals with   visual disabilities in Suffolk County.
 
-  1.2 Core Principles
+2. Core Principles
 
   No login required
   
