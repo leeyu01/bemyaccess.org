@@ -5,11 +5,13 @@
     <title>Accessible Local News for the Visually Impaired</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="An accessible local news website designed for visually impaired users with full screen reader compatibility.">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="img/favicon.png">
 </head>
 
 <body>
 
-    <!-- Skip to content link for screen reader and keyboard users -->
     <a href="#main-content" class="skip-link">Skip to main content</a>
 
     <header role="banner">
@@ -29,46 +31,7 @@
     </nav>
 
     <main id="main-content" role="main">
-
-        <section id="latest-news">
-            <h2>Latest News</h2>
-            <article>
-                <h3>Sample News Headline</h3>
-                <p>
-                    News articles are aggregated daily from local media sources using RSS feeds.
-                    The site keeps the latest 90 days of news in a lightweight JSON format.
-                </p>
-                <a href="#" aria-label="Read more about Sample News Headline">
-                    Read more
-                </a>
-            </article>
-        </section>
-
-        <section id="about">
-            <h2>About This Site</h2>
-            <p>
-                This platform collects local news and presents it in a clean,
-                screen-reader-friendly format. No database is required;
-                news data is stored in JSON files for simplicity and efficiency.
-            </p>
-            <p>
-                The frontend is built with React and designed to ensure compatibility
-                across Windows, macOS, iPhone, and Android devices.
-            </p>
-        </section>
-
-        <section id="accessibility">
-            <h2>Accessibility Features</h2>
-            <ul>
-                <li>WCAG-compliant semantic HTML structure</li>
-                <li>Full compatibility with screen readers (NVDA, JAWS, VoiceOver, TalkBack)</li>
-                <li>Keyboard navigation support</li>
-                <li>Clear heading hierarchy</li>
-                <li>ARIA landmarks and labels</li>
-                <li>High-contrast readable layout</li>
-            </ul>
-        </section>
-
+        <!-- Content here -->
     </main>
 
     <footer role="contentinfo">
