@@ -4,21 +4,69 @@
     <meta charset="UTF-8">
     <title>Accessible Local News for the Visually Impaired</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="An accessible local news website designed for visually impaired users with full screen reader compatibility.">
+    <meta name="description" content="An accessible local news website designed for visually impaired users.">
 
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="img/favicon.png">
+
+    <!-- Basic WCAG-friendly styling -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            background-color: #ffffff;
+            color: #000000;
+            margin: 0;
+        }
+
+        header, nav, main, footer {
+            padding: 1rem;
+        }
+
+        nav ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        nav li {
+            display: inline-block;
+            margin-right: 1rem;
+        }
+
+        a {
+            color: #003366;
+        }
+
+        a:focus, button:focus {
+            outline: 3px solid #000;
+            outline-offset: 2px;
+        }
+
+        .skip-link {
+            position: absolute;
+            left: -999px;
+            top: 10px;
+            background: #000;
+            color: #fff;
+            padding: 8px;
+            z-index: 100;
+        }
+
+        .skip-link:focus {
+            left: 10px;
+        }
+    </style>
 </head>
 
 <body>
 
+    <!-- Skip Navigation -->
     <a href="#main-content" class="skip-link">Skip to main content</a>
 
     <header role="banner">
         <h1>Accessible Local News</h1>
         <p>
-            This website is designed to provide accessible local news for visually impaired users.
-            It follows WCAG accessibility guidelines and works with major screen readers.
+            This website provides accessible local news for visually impaired users.
         </p>
     </header>
 
@@ -31,12 +79,51 @@
     </nav>
 
     <main id="main-content" role="main">
-        <!-- Content here -->
+
+        <section id="latest-news" aria-labelledby="latest-news-heading">
+            <h2 id="latest-news-heading">Latest News</h2>
+
+            <article>
+                <h3>Sample News Headline</h3>
+                <p>
+                    News articles are aggregated daily from local media sources using RSS feeds.
+                    The site keeps the latest 90 days of news in a lightweight JSON format.
+                </p>
+                <a href="#" aria-label="Read more about Sample News Headline">
+                    Read more
+                </a>
+            </article>
+
+        </section>
+
+        <section id="about" aria-labelledby="about-heading">
+            <h2 id="about-heading">About This Site</h2>
+            <p>
+                This platform collects local news and presents it in a clean,
+                screen-reader-friendly format. News data is stored in JSON files
+                for simplicity and efficiency.
+            </p>
+            <p>
+                The frontend is built with React and designed for compatibility
+                across Windows, macOS, iPhone, and Android devices.
+            </p>
+        </section>
+
+        <section id="accessibility" aria-labelledby="accessibility-heading">
+            <h2 id="accessibility-heading">Accessibility Features</h2>
+            <ul>
+                <li>Semantic HTML structure</li>
+                <li>Keyboard navigation support</li>
+                <li>Clear heading hierarchy</li>
+                <li>ARIA landmarks and labels</li>
+                <li>High-contrast readable layout</li>
+            </ul>
+        </section>
+
     </main>
 
     <footer role="contentinfo">
         <p>
-            &copy; 2026 Accessible Local News Project.
             Designed to reduce information barriers and promote equal access to local news.
         </p>
     </footer>
