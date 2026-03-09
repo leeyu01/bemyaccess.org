@@ -3,6 +3,9 @@
 
 > **Meeting Goal:** Align the team on the project purpose, target users, core features, tech stack, and roles — producing a shared document to guide the next phase.
 
+진정한 시각장애인을 위한 웹사이트, 
+로컬 focused
+Suffolk County, NY. based
 ---
 
 ## 📋 Meeting Agenda Overview
@@ -44,10 +47,6 @@
 ### Example User Stories to Discuss
 
 - *"As a blind user, I want to hear news articles read aloud so I can consume content without sight."*
-- *"As a low-vision user, I want to increase font size easily so I can read comfortably."*
-- *"As a user, I want to navigate the site using only my keyboard so I don't need a mouse."*
-- *"As a user, I want to filter news by category so I can find topics I care about."*
-- *"As a user, I want to bookmark articles for later so I can come back to them."*
 
 ### Action Item
 > ✏️ **Ask everyone to write 2–3 user stories before the meeting.**
@@ -64,16 +63,18 @@
 - [ ] Text-to-Speech (TTS) playback
 - [ ] High contrast mode and dark/light theme toggle
 - [ ] Font size adjustment controls
-- [ ] Full keyboard navigation support
-- [ ] Category filtering
+- [x] Full keyboard navigation support (default)
+- [x] Predefined Categories
+- [x] Search - by keyword, search old news
+- [x] Mobile friendly
+- [x] Bookmarks / saved articles  -> using cookie
 
 ### Nice-to-Have (Build Later)
 
-- [ ] User accounts and login
-- [ ] Bookmarks / saved articles
 - [ ] Newsletter / email digest
 - [ ] Multi-language support
-- [ ] Mobile app
+- [x] Search - by semantic
+
 
 > **MVP = Minimum Viable Product** — the simplest version that still delivers real value to users. Build, test, and validate before adding more.
 
@@ -85,13 +86,15 @@
 
 ### Design Priorities to Discuss
 
-- Color contrast strategy — dark mode and light mode
-- Font choices — large, clean, and highly readable
 - Layout simplicity — minimal clutter, clear hierarchy
 - Consistent and predictable navigation structure
+- Only text based. 
 
 ### Reference Sites to Review Before the Meeting
 
+- SEO (search engine optimization)
+- Google Analytics
+- [Bemyeyes.com]https://www.bemyeyes.com/ - reference
 - [BBC Accessibility](https://www.bbc.co.uk/accessibility/) — strong accessible design example
 - [AP News](https://apnews.com) — clean, minimal news layout
 - [Gov.uk](https://www.gov.uk) — excellent accessibility standards
@@ -108,20 +111,11 @@
 | **Backend** | Python Flask / Django vs Node.js vs .NET Core |
 | **Database** | SQLite (recommended — simple to start) |
 | **Hosting** | Azure App Service vs Render vs Railway |
-| **TTS Engine** | Web Speech API (free, browser-native) vs Amazon Polly |
 
-### Recommended Starting Stack
-
-```
-Frontend  →  Flask + Jinja2 templates  (or Next.js if team prefers React)
-Backend   →  Python Flask or Django
-Database  →  SQLite
-Hosting   →  Azure App Service or Render
-TTS       →  Web Speech API (start free, upgrade later)
-```
-
-> 💡 **Tip:** Don't over-engineer at this stage. Start simple — complexity can be added later.
-
+Frontend + DB + api backend: Next.js - Vercell - nodejs - Supabase
+Cron job - Separated work (independantly), news producing, Python script, 
+cron job source: 
+- (Yung)
 ---
 
 ## 6. 👥 Roles & Responsibilities (10 min)
@@ -136,6 +130,8 @@ TTS       →  Web Speech API (start free, upgrade later)
 | **Content Manager** | News sourcing, article posting, editorial | |
 | **Accessibility Tester** | Screen reader testing, WCAG compliance checks | |
 
+<TBA>
+
 ---
 
 ## 7. 📅 Roadmap & Timeline (10 min)
@@ -143,29 +139,20 @@ TTS       →  Web Speech API (start free, upgrade later)
 > Set realistic milestones everyone agrees on.
 
 ```
-Week 1–2   →  Finalize requirements & design mockup
-Week 3–4   →  Project setup, DB schema, basic pages
-Week 5–6   →  Core features (TTS, navigation, articles)
-Week 7–8   →  Accessibility testing & bug fixes
-Week 9     →  Beta launch & user feedback
-Week 10    →  Public launch
+Mar 8th : initial meeting, draft
 ```
 
 ### Collaboration Tools to Agree On
 
 - [ ] Version control: **GitHub**
-- [ ] Communication: **Slack / Discord**
-- [ ] Task tracking: **Notion / Trello / GitHub Issues**
-- [ ] Meeting frequency going forward?
+- [ ] Communication: **google meeting**
+- [ ] Task tracking: TBA
+- [ ] Meeting frequency going forward? - as planned
+-<<PSH 03/08/2026 22:29>> 
 
 ---
 
 ## 8. ❓ Open Discussion (10 min)
-
-- Any concerns or blockers?
-- Skills gaps — does anyone need support in a particular area?
-- Any questions about accessibility requirements?
-- Next meeting date and agenda?
 
 ---
 
