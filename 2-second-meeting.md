@@ -38,12 +38,12 @@ Start by aligning everyone on what was agreed in Meeting 1 and resolving conflic
 - [ ] Confirm the agreed tech stack:
   - **Frontend**: Next.js (TypeScript) on **Vercel**
   - **Database**: **Supabase** (PostgreSQL)
-  - **Crawlers**: **Python** scripts on internal VMs
+  - **Crawlers**: **Claude cowork** with Python script
   - **AI/LM**: Filter, summarize, and de-duplicate articles
-  - **TTS**: Web Speech API (browser-native)
+  - **TTS**: Web Speech API (browser-native) - for searching? go to menu? - NEED
 - [ ] Confirm accessibility target: **WCAG 2.2 AAA**
-- [ ] Confirm **90-day content retention** policy
-- [ ] **Freeze the scope** — no new features after this meeting
+- [ ] Confirm **90-day content retention** policy - confirmed. Just disable news, not hard delete, days should be configurable. 
+- [ ] **Freeze the scope** — no new features after this meeting - confirmed
 
 ---
 
@@ -91,6 +91,8 @@ CREATE TABLE article_tags (
 -- No users/bookmarks tables — bookmarks handled client-side via cookies (no-login policy)
 ```
 
+** Maybe tags are not needed - since we use cookie. - need to confirm. 
+
 ### Decisions Already Made (Meeting 1)
 
 - [x] **No user accounts** for MVP — no-login policy confirmed
@@ -101,10 +103,13 @@ CREATE TABLE article_tags (
 ### Questions to Decide
 
 - [ ] 90-day retention cleanup: **Supabase scheduled function** vs **Python cron script**?
+=> no deletion, just piles up, later cron script will delete them if needed. 
 - [ ] Store AI summaries in `articles.summary` column or a separate `summaries` table?
+=> articles.summary
 - [ ] Index strategy for keyword search — PostgreSQL full-text search (`tsvector`) or Supabase search?
+=> PostgreSQL full-text search
 - [ ] Do we need Supabase Row-Level Security (RLS) for admin endpoints?
-
+=> admin endpoints
 ---
 
 ## 3. 🔌 API Design — Next.js API Routes (15 min)
@@ -116,7 +121,9 @@ CREATE TABLE article_tags (
 
 | Method | Endpoint | Description |
 |---|---|---|
-| GET | `/api/articles` | List all articles (paginated) |
+| GET | `/api/articles/all` | List all articles (paginated), including active and inactive articles|
+| GET | `/api/articles` | List all articles (paginated) only active articles|
+| GET | `/api/articles/disabled` | List all articles (paginated), only inactive articles|
 | GET | `/api/articles/[id]` | Single article detail |
 | GET | `/api/categories` | List all categories |
 | GET | `/api/articles?category={id}` | Filter by category |
@@ -128,8 +135,11 @@ CREATE TABLE article_tags (
 ### Questions to Decide
 
 - [ ] Weather data: **separate API endpoint** (`/api/weather`) calling a weather API, or crawled into articles?
+=>weather API
 - [ ] Admin auth: **API key in header** vs **Supabase RLS** vs **simple password**?
+=> API key in header (fixed)
 - [ ] Pagination: **cursor-based** (better performance) or **offset-based** (simpler)?
+=> offset-based
 
 ### Response Format (agree on standard shape)
 
@@ -147,6 +157,10 @@ CREATE TABLE article_tags (
 ## 4. 🐍 Crawler & AI Pipeline Design (15 min)
 
 > **New section** — this was decided in Meeting 1 but not yet specified.
+1. Python scripts crawls to get news from given source news websites
+2. AI calls api to whether they are already in the DB
+  1. if not, publish news through api
+
 
 ### Python Crawler Architecture
 
@@ -157,6 +171,20 @@ CREATE TABLE article_tags (
 | **Frequency** | Daily cron job |
 | **Hosting** | Team's internal VMs (zero cost) |
 | **Output** | Insert cleaned articles into Supabase |
+
+#### source websites
+this websites should be configurable. 
+- https://www.helenkeller.org/hksb⁠
+- https://www.siloinc.org⁠
+- http://www.vips-li.org⁠
+- https://visionsvcb.org⁠
+- https://www.suffolkcountyny.gov/Departments/Disability-Services⁠
+- https://www.esboces.org⁠
+- https://www.stonybrook.edu/events⁠
+- https://calendar.stonybrook.edu⁠
+- https://healthprofessions.stonybrookmedicine.edu/calendars⁠
+- https://www.suffolknet.org/events⁠
+
 
 ### AI/LM Pipeline (runs after each crawl)
 
@@ -177,9 +205,13 @@ RSS Feed → Python Crawler → Raw Articles
 ### Questions to Decide
 
 - [ ] Which LM to use? **Local Ollama** (see `ollama_settings` in repo) vs **cloud API** (OpenAI, etc.)?
+=> Claude cowork
 - [ ] De-duplication: **hash-only** (exact match) or **hash + semantic similarity** (fuzzy match)?
+=> semantic search (summary)
 - [ ] How many RSS sources to support in MVP? Start with 3–5?
+=> described in previous section
 - [ ] Error handling: what happens when a source is unreachable?
+=> Retry 3 times (sleep time 1 min) then still not reachable just skip
 
 ---
 
@@ -202,11 +234,16 @@ RSS Feed → Python Crawler → Raw Articles
 | **Python Crawler** | RSS aggregation + AI summarization pipeline | | ⬜ Unassigned |
 | **Accessibility Audit** | WCAG AAA checks, screen reader testing | | ⬜ All Members |
 
+All jobs will be assigned to Claude code
+Todo: In order to assign each job, what prompts/docs are needed?
+
 ---
 
 ## 6. 🎨 UI/UX Specification (10 min)
 
 > Design rules must be agreed here so all components look and feel consistent.
+
+Each member should provide example pages. 
 
 ### Typography
 
@@ -245,6 +282,7 @@ RSS Feed → Python Crawler → Raw Articles
 ## 7. 🤖 Claude Code Strategy (15 min)
 
 > How our team will use Claude Code effectively to build each component.
+TODO: probably need to rebuild below structures. 
 
 ### Folder Structure (agree before coding)
 
