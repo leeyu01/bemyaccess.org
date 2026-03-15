@@ -1,132 +1,453 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Accessible Local News for the Visually Impaired</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="An accessible local news website designed for visually impaired users.">
-
-    <!-- Favicon -->
-    <link rel="icon" type="image/png" href="img/favicon.png">
-
-    <!-- Basic WCAG-friendly styling -->
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            line-height: 1.6;
-            background-color: #ffffff;
-            color: #000000;
-            margin: 0;
-        }
-
-        header, nav, main, footer {
-            padding: 1rem;
-        }
-
-        nav ul {
-            list-style: none;
-            padding: 0;
-        }
-
-        nav li {
-            display: inline-block;
-            margin-right: 1rem;
-        }
-
-        a {
-            color: #003366;
-        }
-
-        a:focus, button:focus {
-            outline: 3px solid #000;
-            outline-offset: 2px;
-        }
-
-        .skip-link {
-            position: absolute;
-            left: -999px;
-            top: 10px;
-            background: #000;
-            color: #fff;
-            padding: 8px;
-            z-index: 100;
-        }
-
-        .skip-link:focus {
-            left: 10px;
-        }
-    </style>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<!-- Favicon -->
+<link rel="icon" type="image/png" href="img/favicon.png">
+<title>BeMyAccess — Suffolk County Accessible News</title>
+<style>
+  :root {
+    --bg:#FFFFFF; --surface:#F5F5F5; --text:#1A1A1A; --text2:#4A4A4A;
+    --accent:#0057B8; --focus:#FF6B00; --border:#E0E0E0;
+    --card:#FFFFFF; --nav:#FFFFFF; --shadow:rgba(0,0,0,0.06);
+    --font:'Segoe UI',system-ui,sans-serif;
+  }
+  [data-theme="dark"] {
+    --bg:#121212; --surface:#1E1E1E; --text:#F5F5F5; --text2:#AAAAAA;
+    --accent:#4FA3FF; --focus:#FF6B00; --border:#333; --card:#1E1E1E;
+    --nav:#1A1A1A; --shadow:rgba(0,0,0,0.3);
+  }
+  [data-theme="high"] {
+    --bg:#000000; --surface:#111111; --text:#FFFFFF; --text2:#FFFF00;
+    --accent:#00FFFF; --focus:#FF6B00; --border:#FFFFFF; --card:#111111;
+    --nav:#000000; --shadow:none;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--text);font-family:var(--font);font-size:18px;line-height:1.6;transition:background .2s,color .2s}
+  a{color:var(--accent);text-decoration:none}
+  a:focus,button:focus,input:focus,select:focus{outline:3px solid var(--focus);outline-offset:3px}
+  /* Skip link */
+  .skip{position:absolute;top:-100px;left:1rem;background:var(--accent);color:#fff;padding:10px 20px;border-radius:6px;font-weight:700;z-index:9999;transition:top .1s}
+  .skip:focus{top:8px}
+  /* Nav */
+  nav{background:var(--nav);border-bottom:1.5px solid var(--border);padding:0 1.5rem;display:flex;align-items:center;justify-content:space-between;min-height:64px;position:sticky;top:0;z-index:100;box-shadow:0 2px 8px var(--shadow)}
+  .nav-brand{display:flex;align-items:center;gap:10px;font-size:1.2rem;font-weight:700;color:var(--text);text-decoration:none}
+  .nav-brand span.logo{background:var(--accent);color:#fff;width:36px;height:36px;display:flex;align-items:center;justify-content:center;border-radius:8px;font-size:1rem;font-weight:900;flex-shrink:0}
+  .nav-actions{display:flex;align-items:center;gap:8px}
+  .icon-btn{background:transparent;border:1.5px solid var(--border);border-radius:8px;padding:8px 12px;cursor:pointer;font-size:1rem;color:var(--text);display:flex;align-items:center;gap:6px;min-width:44px;min-height:44px;justify-content:center;transition:background .15s,border-color .15s}
+  .icon-btn:hover{background:var(--surface);border-color:var(--text2)}
+  .theme-label{font-size:0.78rem;color:var(--text2)}
+  /* Layout */
+  main{max-width:860px;margin:0 auto;padding:1.5rem 1.5rem 3rem}
+  /* Weather widget */
+  .weather{background:var(--surface);border:1.5px solid var(--border);border-radius:14px;padding:1rem 1.4rem;display:flex;align-items:center;gap:1rem;margin-bottom:1.8rem;flex-wrap:wrap}
+  .weather-icon{font-size:2.4rem;line-height:1}
+  .weather-main{flex:1;min-width:160px}
+  .weather-loc{font-size:0.82rem;color:var(--text2);font-weight:600;letter-spacing:.04em;text-transform:uppercase}
+  .weather-temp{font-size:2rem;font-weight:700;color:var(--text);line-height:1.1}
+  .weather-desc{font-size:0.9rem;color:var(--text2);margin-top:2px}
+  .weather-details{display:flex;gap:1.2rem;flex-wrap:wrap}
+  .weather-detail{font-size:0.82rem;color:var(--text2);display:flex;flex-direction:column;gap:2px}
+  .weather-detail strong{font-size:0.95rem;color:var(--text);font-weight:700}
+  /* Page header */
+  .page-header{margin-bottom:1.2rem}
+  .page-header h1{font-size:1.6rem;font-weight:700;color:var(--text);margin-bottom:.3rem}
+  .page-header p{color:var(--text2);font-size:0.95rem}
+  /* Search */
+  .search-row{display:flex;gap:10px;margin-bottom:1.2rem;flex-wrap:wrap}
+  .search-input{flex:1;min-width:200px;padding:10px 16px;border:1.5px solid var(--border);border-radius:8px;font-size:1rem;background:var(--card);color:var(--text);font-family:var(--font);min-height:44px}
+  .search-input::placeholder{color:var(--text2)}
+  /* Category filter */
+  .cat-filter{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:1.4rem}
+  .cat-btn{padding:8px 18px;border-radius:30px;border:1.5px solid var(--border);background:var(--card);color:var(--text2);cursor:pointer;font-size:0.9rem;font-weight:600;transition:all .15s;min-height:44px;font-family:var(--font)}
+  .cat-btn:hover{border-color:var(--accent);color:var(--accent)}
+  .cat-btn.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+  /* Article grid */
+  .article-grid{display:flex;flex-direction:column;gap:14px}
+  .article-card{background:var(--card);border:1.5px solid var(--border);border-radius:12px;padding:1.2rem 1.4rem;cursor:pointer;transition:border-color .15s,box-shadow .15s;display:flex;flex-direction:column;gap:8px}
+  .article-card:hover,.article-card:focus{border-color:var(--accent);box-shadow:0 0 0 2px var(--accent) inset;outline:none}
+  .article-card:focus{outline:3px solid var(--focus);outline-offset:2px}
+  .card-meta{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+  .badge{font-size:0.75rem;font-weight:700;padding:3px 10px;border-radius:20px;letter-spacing:.03em;text-transform:uppercase}
+  .badge-local{background:#E3EEFF;color:#0057B8}
+  .badge-disabled{background:#E8F5E9;color:#2E7D32}
+  .badge-weather{background:#FFF3E0;color:#E65100}
+  [data-theme="dark"] .badge-local{background:#1A2E4A;color:#7BB8FF}
+  [data-theme="dark"] .badge-disabled{background:#1A2E1A;color:#81C784}
+  [data-theme="dark"] .badge-weather{background:#2E1E00;color:#FFB74D}
+  [data-theme="high"] .badge-local,[data-theme="high"] .badge-disabled,[data-theme="high"] .badge-weather{background:#222;color:#FFFF00;border:1px solid #FFFF00}
+  .card-source{font-size:0.8rem;color:var(--text2)}
+  .card-date{font-size:0.8rem;color:var(--text2);margin-left:auto}
+  .card-title{font-size:1.08rem;font-weight:700;color:var(--text);line-height:1.4}
+  .card-summary{font-size:0.92rem;color:var(--text2);line-height:1.6;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+  /* Detail page */
+  .detail-page{display:none;flex-direction:column;gap:1.2rem}
+  .detail-page.visible{display:flex}
+  .list-page{display:flex;flex-direction:column}
+  .list-page.hidden{display:none}
+  .back-btn{display:inline-flex;align-items:center;gap:8px;background:var(--surface);border:1.5px solid var(--border);border-radius:8px;padding:8px 16px;font-size:0.95rem;font-weight:600;color:var(--text);cursor:pointer;min-height:44px;transition:background .15s;font-family:var(--font)}
+  .back-btn:hover{background:var(--border)}
+  .detail-meta{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+  .detail-title{font-size:1.6rem;font-weight:700;color:var(--text);line-height:1.35}
+  .detail-byline{font-size:0.9rem;color:var(--text2)}
+  .detail-body{font-size:1.08rem;line-height:1.75;color:var(--text);border-top:1.5px solid var(--border);padding-top:1.2rem}
+  .detail-body p{margin-bottom:1em}
+  /* Font size control */
+  .font-controls{display:flex;align-items:center;gap:10px;flex-wrap:wrap;background:var(--surface);border:1.5px solid var(--border);border-radius:10px;padding:10px 16px}
+  .font-controls span{font-size:0.85rem;color:var(--text2);font-weight:600}
+  .font-btn{background:var(--card);border:1.5px solid var(--border);border-radius:6px;padding:6px 14px;font-size:0.95rem;font-weight:700;color:var(--text);cursor:pointer;min-width:44px;min-height:44px;font-family:var(--font);transition:background .15s}
+  .font-btn:hover{background:var(--accent);color:#fff;border-color:var(--accent)}
+  /* TTS Player */
+  .tts-player{background:var(--surface);border:1.5px solid var(--accent);border-radius:12px;padding:1rem 1.4rem;display:flex;flex-direction:column;gap:10px}
+  .tts-top{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+  .tts-label{font-size:0.85rem;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:.06em;flex:1}
+  .tts-play{background:var(--accent);color:#fff;border:none;border-radius:8px;padding:10px 20px;font-size:1rem;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:8px;min-height:44px;font-family:var(--font);transition:opacity .15s}
+  .tts-play:hover{opacity:.85}
+  .tts-controls{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+  .speed-label{font-size:0.85rem;color:var(--text2)}
+  .speed-btns{display:flex;gap:5px}
+  .speed-btn{background:var(--card);border:1.5px solid var(--border);border-radius:6px;padding:5px 11px;font-size:0.82rem;font-weight:700;color:var(--text2);cursor:pointer;min-height:36px;font-family:var(--font);transition:all .15s}
+  .speed-btn.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+  .tts-status{font-size:0.85rem;color:var(--accent);font-weight:600;min-height:20px}
+  /* Source link */
+  .source-link{font-size:0.85rem;color:var(--text2)}
+  .source-link a{color:var(--accent);text-decoration:underline}
+  /* Empty state */
+  .empty{text-align:center;padding:3rem 1rem;color:var(--text2);font-size:1rem}
+  /* Responsive */
+  @media(max-width:600px){
+    nav{padding:0 1rem}
+    .nav-brand span.logo-text{display:none}
+    main{padding:1rem 1rem 2rem}
+    .detail-title{font-size:1.3rem}
+  }
+</style>
 </head>
+<body data-theme="light">
 
-<body>
+<a class="skip" href="#main-content">Skip to main content</a>
 
-    <!-- Skip Navigation -->
-    <a href="#main-content" class="skip-link">Skip to main content</a>
+<nav role="navigation" aria-label="Main navigation">
+  <a class="nav-brand" href="#" onclick="showList();return false;" aria-label="BeMyAccess home">
+    <span class="logo" aria-hidden="true">B</span>
+    <span class="logo-text">BeMyAccess</span>
+  </a>
+  <div class="nav-actions" role="toolbar" aria-label="Display settings">
+    <button class="icon-btn" onclick="cycleTheme()" id="theme-btn" aria-label="Toggle color theme" title="Toggle theme">
+      <span id="theme-icon">☀️</span>
+      <span class="theme-label" id="theme-text">Light</span>
+    </button>
+  </div>
+</nav>
 
-    <header role="banner">
-        <h1>Accessible Local News</h1>
-        <p>
-            This website provides accessible local news for visually impaired users.
-        </p>
-    </header>
+<main id="main-content" role="main">
 
-    <nav role="navigation" aria-label="Main Navigation">
-        <ul>
-            <li><a href="#latest-news">Latest News</a></li>
-            <li><a href="#about">About This Site</a></li>
-            <li><a href="#accessibility">Accessibility Features</a></li>
-        </ul>
-    </nav>
+  <!-- LIST PAGE -->
+  <div class="list-page" id="list-page" aria-label="Article list">
 
-    <main id="main-content" role="main">
+    <!-- Weather Widget -->
+    <section class="weather" aria-label="Suffolk County weather" role="region">
+      <div class="weather-icon" aria-hidden="true" id="w-icon">🌤️</div>
+      <div class="weather-main">
+        <div class="weather-loc">Suffolk County, NY</div>
+        <div class="weather-temp" id="w-temp">54°F</div>
+        <div class="weather-desc" id="w-desc">Partly cloudy</div>
+      </div>
+      <div class="weather-details">
+        <div class="weather-detail"><span>Humidity</span><strong>61%</strong></div>
+        <div class="weather-detail"><span>Wind</span><strong>12 mph W</strong></div>
+        <div class="weather-detail"><span>High / Low</span><strong>58° / 44°</strong></div>
+      </div>
+    </section>
 
-        <section id="latest-news" aria-labelledby="latest-news-heading">
-            <h2 id="latest-news-heading">Latest News</h2>
+    <div class="page-header">
+      <h1>Local News & Accessibility</h1>
+      <p>Suffolk County news, disability services, and local resources — read aloud, your way.</p>
+    </div>
 
-            <article>
-                <h3>Sample News Headline</h3>
-                <p>
-                    News articles are aggregated daily from local media sources using RSS feeds.
-                    The site keeps the latest 90 days of news in a lightweight JSON format.
-                </p>
-                <a href="#" aria-label="Read more about Sample News Headline">
-                    Read more
-                </a>
-            </article>
+    <!-- Search -->
+    <div class="search-row" role="search">
+      <label for="search-input" class="sr-only" style="position:absolute;left:-9999px">Search articles</label>
+      <input id="search-input" class="search-input" type="search" placeholder="🔍  Search articles..." aria-label="Search articles" oninput="filterArticles()"/>
+    </div>
 
-        </section>
+    <!-- Category filter -->
+    <div class="cat-filter" role="group" aria-label="Filter by category">
+      <button class="cat-btn active" data-cat="all" onclick="setCategory(this)" aria-pressed="true">All</button>
+      <button class="cat-btn" data-cat="Local News" onclick="setCategory(this)" aria-pressed="false">📰 Local News</button>
+      <button class="cat-btn" data-cat="News for the Disabled" onclick="setCategory(this)" aria-pressed="false">♿ Disability Services</button>
+      <button class="cat-btn" data-cat="Weather" onclick="setCategory(this)" aria-pressed="false">🌦 Weather</button>
+    </div>
 
-        <section id="about" aria-labelledby="about-heading">
-            <h2 id="about-heading">About This Site</h2>
-            <p>
-                This platform collects local news and presents it in a clean,
-                screen-reader-friendly format. News data is stored in JSON files
-                for simplicity and efficiency.
-            </p>
-            <p>
-                The frontend is built with React and designed for compatibility
-                across Windows, macOS, iPhone, and Android devices.
-            </p>
-        </section>
+    <!-- Article list -->
+    <div class="article-grid" id="article-grid" role="list" aria-live="polite" aria-label="Articles"></div>
 
-        <section id="accessibility" aria-labelledby="accessibility-heading">
-            <h2 id="accessibility-heading">Accessibility Features</h2>
-            <ul>
-                <li>Semantic HTML structure</li>
-                <li>Keyboard navigation support</li>
-                <li>Clear heading hierarchy</li>
-                <li>ARIA landmarks and labels</li>
-                <li>High-contrast readable layout</li>
-            </ul>
-        </section>
+  </div>
 
-    </main>
+  <!-- DETAIL PAGE -->
+  <div class="detail-page" id="detail-page" role="article" aria-labelledby="detail-heading">
+    <div>
+      <button class="back-btn" onclick="showList()" aria-label="Back to article list">← Back to News</button>
+    </div>
+    <div class="detail-meta" id="detail-meta"></div>
+    <h1 class="detail-title" id="detail-heading"></h1>
+    <p class="detail-byline" id="detail-byline"></p>
 
-    <footer role="contentinfo">
-        <p>
-            Designed to reduce information barriers and promote equal access to local news.
-        </p>
-    </footer>
+    <!-- Font size control -->
+    <div class="font-controls" role="group" aria-label="Adjust font size">
+      <span>Text size:</span>
+      <button class="font-btn" onclick="adjustFont(-2)" aria-label="Decrease font size">A−</button>
+      <button class="font-btn" onclick="adjustFont(0)" aria-label="Reset font size">A</button>
+      <button class="font-btn" onclick="adjustFont(2)" aria-label="Increase font size">A+</button>
+    </div>
 
+    <!-- TTS Player -->
+    <div class="tts-player" role="region" aria-label="Text to speech player">
+      <div class="tts-top">
+        <span class="tts-label">🔊 Read Aloud</span>
+        <button class="tts-play" id="tts-btn" onclick="toggleTTS()" aria-live="polite">▶ Play</button>
+      </div>
+      <div class="tts-controls">
+        <span class="speed-label">Speed:</span>
+        <div class="speed-btns" role="group" aria-label="Playback speed">
+          <button class="speed-btn" onclick="setSpeed(0.75,this)" aria-label="0.75x speed">0.75×</button>
+          <button class="speed-btn active" onclick="setSpeed(1,this)" aria-label="Normal speed" aria-pressed="true">1×</button>
+          <button class="speed-btn" onclick="setSpeed(1.25,this)" aria-label="1.25x speed">1.25×</button>
+          <button class="speed-btn" onclick="setSpeed(1.5,this)" aria-label="1.5x speed">1.5×</button>
+        </div>
+      </div>
+      <div class="tts-status" id="tts-status" aria-live="polite"></div>
+    </div>
+
+    <div class="detail-body" id="detail-body" style="font-size:1.08rem"></div>
+    <div class="source-link" id="detail-source"></div>
+  </div>
+
+</main>
+
+<script>
+// ── Mock Data ──────────────────────────────────────────
+const articles = [
+  {
+    id:1, category:"Local News", source:"Newsday",
+    published:"March 14, 2025",
+    title:"Brookhaven Town Approves $2.4M Road Resurfacing Plan for 2025",
+    summary:"The Brookhaven Town Board unanimously passed a $2.4 million plan to resurface over 40 lane-miles of local roads, prioritizing heavily trafficked corridors in Medford, Coram, and Port Jefferson Station.",
+    body:`<p>The Brookhaven Town Board voted unanimously Tuesday to approve a $2.4 million road resurfacing initiative targeting more than 40 lane-miles of deteriorating local streets across the town.</p><p>Highway Superintendent Dan Losquadro said crews will prioritize arterial roads in Medford, Coram, and Port Jefferson Station beginning in late April, with most work expected to wrap up before the summer season peaks.</p><p>"These are roads our residents rely on every single day," Losquadro said. "We've been methodical about which corridors need the most attention, and this investment will make a real difference."</p><p>The funding comes from a combination of state highway aid and the town's own capital reserve fund. Residents can track project schedules through the town's online infrastructure portal starting next month.</p>`,
+    url:"https://www.newsday.com"
+  },
+  {
+    id:2, category:"News for the Disabled", source:"Suffolk County Disability Services",
+    published:"March 12, 2025",
+    title:"Suffolk County Expands Paratransit Service Hours for Spring 2025",
+    summary:"Starting April 1, Suffolk County's paratransit service will extend weekday evening hours to 10 PM, giving thousands of residents with disabilities greater access to medical appointments and community programs.",
+    body:`<p>Suffolk County announced this week that its paratransit service, which provides door-to-door transportation for residents with mobility and developmental disabilities, will extend evening service hours beginning April 1.</p><p>Under the new schedule, weekday service will run until 10 PM — two hours later than the current 8 PM cutoff. Weekend morning pickups will also begin one hour earlier, at 7 AM.</p><p>County Executive Ed Romaine said the expansion responds directly to feedback from disability advocacy groups who noted that many residents were missing evening medical appointments and adult education programs due to service gaps.</p><p>"Transportation is independence," Romaine said. "Every hour we extend this service is an hour more of access, opportunity, and dignity for our neighbors."</p><p>Residents who already use the paratransit system will be automatically enrolled in the new hours. New applicants can contact the Suffolk County Office for People with Disabilities at (631) 853-8333.</p>`,
+    url:"https://www.suffolkcountyny.gov/Departments/Disability-Services"
+  },
+  {
+    id:3, category:"News for the Disabled", source:"SILO Independent Living",
+    published:"March 11, 2025",
+    title:"SILO Launches Free Assistive Technology Lending Library in Hauppauge",
+    summary:"SILO Inc. has opened a new assistive technology lending library at its Hauppauge office, allowing Suffolk residents with disabilities to borrow devices — including screen readers, amplified phones, and adaptive keyboards — at no cost.",
+    body:`<p>SILO Inc., Suffolk's center for independent living, has opened a free Assistive Technology Lending Library at its main office on Veterans Memorial Highway in Hauppauge, giving residents with disabilities a chance to try devices before committing to a purchase.</p><p>The library's inventory includes screen magnification software, screen readers, speech-to-text programs, amplified telephones, adaptive keyboards, and a range of low-vision tools. Each item can be borrowed for up to four weeks.</p><p>"We know that assistive technology can be life-changing — but it's also expensive and highly personal," said SILO Director Karen Tamis. "This library lets people find what actually works for them without the financial risk."</p><p>Appointments to visit the lending library are available Monday through Friday. Residents can call SILO at (631) 234-1056 or visit siloinc.org to schedule a demonstration session.</p>`,
+    url:"https://www.siloinc.org"
+  },
+  {
+    id:4, category:"Local News", source:"Patch Suffolk",
+    published:"March 13, 2025",
+    title:"Stony Brook University Hospital Opens New Neurology Center",
+    summary:"Stony Brook University Hospital has officially opened its expanded Neurology and Neuroscience Center, adding 14 new specialists and same-week appointment availability for patients across Long Island.",
+    body:`<p>Stony Brook University Hospital cut the ribbon Thursday on its newly expanded Neurology and Neuroscience Center, consolidating outpatient neurology services and adding 14 specialists to its existing team.</p><p>The center, located in the East Medical Pavilion, will offer same-week appointments for new patients with conditions including multiple sclerosis, Parkinson's disease, epilepsy, and stroke recovery — addressing a historically long waiting period at the institution.</p><p>Dr. Irina Staicu, the center's director, said the expansion also introduces a new telemedicine track for patients in the East End and North Fork who have difficulty traveling to Stony Brook.</p><p>The hospital is hosting a community open house on March 22 from 10 AM to 2 PM, where residents can meet specialists and learn about available services.</p>`,
+    url:"https://www.stonybrook.edu"
+  },
+  {
+    id:5, category:"Weather", source:"National Weather Service",
+    published:"March 15, 2025",
+    title:"Coastal Flood Advisory Issued for South Shore of Long Island Through Sunday",
+    summary:"The National Weather Service has issued a Coastal Flood Advisory for low-lying areas along Suffolk County's south shore, with minor tidal flooding expected during the Sunday morning high tide cycle.",
+    body:`<p>The National Weather Service in Upton has issued a Coastal Flood Advisory for low-lying coastal areas along the south shore of Suffolk County, effective through Sunday afternoon.</p><p>Forecasters say a combination of a new moon tidal cycle and persistent southeast winds of 10 to 15 mph will push water levels one to one-and-a-half feet above normal during the Sunday morning high tide, which peaks around 9:15 AM.</p><p>Residents in flood-prone neighborhoods including Lindenhurst, Babylon, and West Islip should expect minor street flooding near tidal waterways and may want to relocate vehicles parked in low-lying areas overnight Saturday.</p><p>No evacuations are anticipated. The advisory is expected to be lifted by Sunday at 3 PM as winds shift northwest and tidal conditions normalize. Residents can monitor conditions at weather.gov/okx.</p>`,
+    url:"https://weather.gov"
+  },
+  {
+    id:6, category:"News for the Disabled", source:"Vision Loss Alliance",
+    published:"March 10, 2025",
+    title:"Visions VCB Offers Free Transportation to Vision Rehabilitation Services",
+    summary:"Visions/Services for the Blind and Visually Impaired is now offering free transportation assistance to and from its Hauppauge rehabilitation center for eligible Suffolk County residents.",
+    body:`<p>Visions/Services for the Blind and Visually Impaired announced a new free transportation program for Suffolk County residents who need access to its Hauppauge rehabilitation center but face mobility barriers.</p><p>The program covers round-trip rides for eligible clients attending vision rehabilitation sessions, including orientation and mobility training, low-vision therapy, and assistive technology instruction.</p><p>Eligibility is open to residents with documented vision loss of 20/70 or worse in both eyes who are not currently able to drive. The service is funded through a grant from the New York State Commission for the Blind.</p><p>To apply, residents can call Visions at (631) 952-9300 or email their regional coordinator through visionsvcb.org. Services are available Tuesday through Thursday beginning April 7.</p>`,
+    url:"https://visionsvcb.org"
+  },
+  {
+    id:7, category:"Local News", source:"Patch Suffolk",
+    published:"March 9, 2025",
+    title:"Suffolk BOCES Launches New Career Program for Students with Disabilities",
+    summary:"Eastern Suffolk BOCES has unveiled a new transition-to-work program offering vocational training and job placement support for students with disabilities ages 18 to 21 across seven partner school districts.",
+    body:`<p>Eastern Suffolk BOCES launched a new Transition to Employment program this week, designed to help students with disabilities between the ages of 18 and 21 develop workplace skills and connect with local employers.</p><p>The program, funded in part by a three-year federal grant, will serve students from seven participating school districts including Brentwood, Central Islip, and Wyandanch — communities with historically higher rates of youth disability and unemployment.</p><p>Participants will receive individualized vocational assessments, job-shadowing placements, and coaching from certified transition specialists. Employer partners for the initial cohort include a Stony Brook-affiliated medical facility, a regional grocery chain, and a logistics company in Hauppauge.</p><p>"We want students to leave our program with real skills, real experience, and a real offer," said BOCES Superintendent Susan Schnebel. Applications for the fall cohort open May 1.</p>`,
+    url:"https://www.esboces.org"
+  }
+];
+
+// ── State ──────────────────────────────────────────────
+let currentCat = "all";
+let currentSearch = "";
+let currentArticle = null;
+let ttsUtter = null;
+let ttsPlaying = false;
+let ttsSpeed = 1;
+let bodyFontSize = 1.08;
+const themes = ["light","dark","high"];
+const themeIcons = ["☀️","🌙","⚡"];
+const themeLabels = ["Light","Dark","High Contrast"];
+let themeIdx = 0;
+
+// ── Theme ──────────────────────────────────────────────
+function cycleTheme() {
+  themeIdx = (themeIdx + 1) % themes.length;
+  document.body.setAttribute("data-theme", themes[themeIdx]);
+  document.getElementById("theme-icon").textContent = themeIcons[themeIdx];
+  document.getElementById("theme-text").textContent = themeLabels[themeIdx];
+}
+
+// ── Badge helper ──────────────────────────────────────
+function badgeClass(cat) {
+  if(cat==="Local News") return "badge-local";
+  if(cat==="News for the Disabled") return "badge-disabled";
+  if(cat==="Weather") return "badge-weather";
+  return "badge-local";
+}
+function badgeLabel(cat) {
+  if(cat==="Local News") return "📰 Local News";
+  if(cat==="News for the Disabled") return "♿ Disability";
+  if(cat==="Weather") return "🌦 Weather";
+  return cat;
+}
+
+// ── Render articles ────────────────────────────────────
+function filterArticles() {
+  currentSearch = document.getElementById("search-input").value.toLowerCase();
+  renderArticles();
+}
+function setCategory(btn) {
+  currentCat = btn.dataset.cat;
+  document.querySelectorAll(".cat-btn").forEach(b => {
+    b.classList.toggle("active", b===btn);
+    b.setAttribute("aria-pressed", b===btn ? "true":"false");
+  });
+  renderArticles();
+}
+function renderArticles() {
+  const grid = document.getElementById("article-grid");
+  const filtered = articles.filter(a => {
+    const matchCat = currentCat==="all" || a.category===currentCat;
+    const matchSearch = !currentSearch || a.title.toLowerCase().includes(currentSearch) || a.summary.toLowerCase().includes(currentSearch);
+    return matchCat && matchSearch;
+  });
+  if(filtered.length===0) {
+    grid.innerHTML = `<div class="empty" role="status">No articles found. Try a different search or category.</div>`;
+    return;
+  }
+  grid.innerHTML = filtered.map(a => `
+    <article class="article-card" role="listitem" tabindex="0"
+      onclick="showDetail(${a.id})"
+      onkeydown="if(event.key==='Enter'||event.key===' '){showDetail(${a.id});event.preventDefault()}"
+      aria-label="${a.title}">
+      <div class="card-meta">
+        <span class="badge ${badgeClass(a.category)}" aria-label="Category: ${a.category}">${badgeLabel(a.category)}</span>
+        <span class="card-source">${a.source}</span>
+        <span class="card-date">${a.published}</span>
+      </div>
+      <div class="card-title">${a.title}</div>
+      <div class="card-summary">${a.summary}</div>
+    </article>
+  `).join("");
+}
+
+// ── Navigation ─────────────────────────────────────────
+function showDetail(id) {
+  stopTTS();
+  currentArticle = articles.find(a => a.id===id);
+  if(!currentArticle) return;
+  document.getElementById("list-page").classList.add("hidden");
+  const dp = document.getElementById("detail-page");
+  dp.classList.add("visible");
+  document.getElementById("detail-meta").innerHTML = `
+    <span class="badge ${badgeClass(currentArticle.category)}">${badgeLabel(currentArticle.category)}</span>
+    <span class="card-source">${currentArticle.source}</span>
+    <span class="card-date">${currentArticle.published}</span>
+  `;
+  document.getElementById("detail-heading").textContent = currentArticle.title;
+  document.getElementById("detail-byline").textContent = `Source: ${currentArticle.source} · ${currentArticle.published}`;
+  document.getElementById("detail-body").innerHTML = currentArticle.body;
+  document.getElementById("detail-body").style.fontSize = bodyFontSize + "rem";
+  document.getElementById("detail-source").innerHTML = currentArticle.url
+    ? `Original source: <a href="${currentArticle.url}" target="_blank" rel="noopener noreferrer">${currentArticle.source} ↗</a>`
+    : "";
+  document.getElementById("tts-btn").textContent = "▶ Play";
+  document.getElementById("tts-status").textContent = "";
+  dp.scrollIntoView({behavior:"smooth", block:"start"});
+  setTimeout(() => document.querySelector(".back-btn").focus(), 300);
+}
+function showList() {
+  stopTTS();
+  document.getElementById("detail-page").classList.remove("visible");
+  document.getElementById("list-page").classList.remove("hidden");
+  window.scrollTo({top:0, behavior:"smooth"});
+}
+
+// ── Font size ──────────────────────────────────────────
+function adjustFont(delta) {
+  if(delta===0) { bodyFontSize=1.08; }
+  else { bodyFontSize = Math.max(0.9, Math.min(1.6, bodyFontSize + delta*0.06)); }
+  document.getElementById("detail-body").style.fontSize = bodyFontSize + "rem";
+}
+
+// ── TTS ────────────────────────────────────────────────
+function toggleTTS() {
+  if(!('speechSynthesis' in window)) {
+    document.getElementById("tts-status").textContent = "Text-to-speech not supported in this browser.";
+    return;
+  }
+  if(ttsPlaying) { stopTTS(); return; }
+  startTTS();
+}
+function startTTS() {
+  if(!currentArticle) return;
+  window.speechSynthesis.cancel();
+  const text = currentArticle.title + ". " + currentArticle.body.replace(/<[^>]+>/g," ").replace(/\s+/g," ").trim();
+  ttsUtter = new SpeechSynthesisUtterance(text);
+  ttsUtter.rate = ttsSpeed;
+  ttsUtter.lang = "en-US";
+  ttsUtter.onstart = () => {
+    ttsPlaying = true;
+    document.getElementById("tts-btn").textContent = "⏸ Pause";
+    document.getElementById("tts-status").textContent = "Reading aloud…";
+  };
+  ttsUtter.onend = ttsUtter.onerror = () => {
+    ttsPlaying = false;
+    document.getElementById("tts-btn").textContent = "▶ Play";
+    document.getElementById("tts-status").textContent = "";
+  };
+  window.speechSynthesis.speak(ttsUtter);
+}
+function stopTTS() {
+  if('speechSynthesis' in window) window.speechSynthesis.cancel();
+  ttsPlaying = false;
+  const btn = document.getElementById("tts-btn");
+  if(btn) btn.textContent = "▶ Play";
+  const st = document.getElementById("tts-status");
+  if(st) st.textContent = "";
+}
+function setSpeed(s, btn) {
+  ttsSpeed = s;
+  document.querySelectorAll(".speed-btn").forEach(b => {
+    b.classList.toggle("active", b===btn);
+    b.setAttribute("aria-pressed", b===btn ? "true":"false");
+  });
+  if(ttsPlaying) { stopTTS(); startTTS(); }
+}
+
+// ── Init ───────────────────────────────────────────────
+renderArticles();
+</script>
 </body>
 </html>
