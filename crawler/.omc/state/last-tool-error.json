@@ -1,0 +1,7 @@
+{
+  "tool_name": "Bash",
+  "tool_input_preview": "{\"command\":\"python run.py 2>&1\",\"timeout\":60000,\"description\":\"Test crawler after environment fix\"}",
+  "error": "Exit code 1\n2026-03-15 21:59:31,177 - src.crawler_orchestrator - INFO - Total articles crawled: 7\r\n2026-03-15 21:59:32,845 - httpx - INFO - HTTP Request: GET https://yluywmjqvvziyguangbd.supabase.co/rest/v1/articles?select=id&dedup_hash=eq.ea9bbf8c787a1d58ef2db7959d1cc3bdc90a820a1fcefbc2f6de002565edbccf \"HTTP/2 200 OK\"\r\n2026-03-15 21:59:33,095 - httpx - INFO - HTTP Request: POST https://yluywmjqvvziyguangbd.supabase.co/rest/v1/articles \"HTTP/2 400 Bad Request\"\r\n2026-03-15 21:59:33,248 - httpx - ...",
+  "timestamp": "2026-03-16T01:59:34.878Z",
+  "retry_count": 1
+}

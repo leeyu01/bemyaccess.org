@@ -1,0 +1,7 @@
+{
+  "tool_name": "Bash",
+  "tool_input_preview": "{\"command\":\"cd /c/Users/playl/OneDrive/Documents/VSProjects/bemyaccess.org/crawler && python run.py\",\"timeout\":60000,\"description\":\"Test crawler with new entry point\"}",
+  "error": "Exit code 1\nTraceback (most recent call last):\r\n  File \"C:\\Users\\playl\\OneDrive\\Documents\\VSProjects\\bemyaccess.org\\crawler\\run.py\", line 13, in <module>\r\n    from src.supabase_client import insert_article\r\n  File \"C:\\Users\\playl\\OneDrive\\Documents\\VSProjects\\bemyaccess.org\\crawler\\src\\supabase_client.py\", line 10, in <module>\r\n    supabase = create_client(SUPABASE_URL, SUPABASE_ANON_KEY)\r\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\r\n  File \"C:\\Users\\playl\\AppData\\Local\\Program...",
+  "timestamp": "2026-03-16T01:57:23.272Z",
+  "retry_count": 1
+}

@@ -1,0 +1,131 @@
+<Vercel.com account>
+- 
+To run locally (development): npm run dev or next dev                                                                                                                                                                                                                                                                                               
+To deploy to Vercel (production): vercel --prod 
+
+Supabase.com account
+- 
+db password: nzaEZSV78z1exV8T
+
+<HOW connected each compoments>
+Supabase: Online account, both local dev and production use the same DB                                                                                                                                                    
+  Next.js:                                                                                                                                                                                                                
+  - Develop locally (npm run dev)                                                                                                                                                                                         
+  - Connects to online Supabase DB
+  - When ready, deploy to Vercel → production URL
+
+  Crawler:
+  - Develop locally (Python)
+  - During dev: can call your local Next.js API (localhost:3000)
+  - After deployment: calls Vercel API (production URL)
+  - For production, you'll deploy it to your internal VMs
+
+  So:
+  - Next.js runs locally during dev, online in production
+  - Supabase always online
+  - Crawler: local during dev, internal VMs in production
+
+<DEVELOPMENT STEPS>
+  Phase 1: Foundation                                                                                                                                                                                                       1. Create Supabase project + get credentials
+  2. Initialize Next.js app (TypeScript)                                                                                                                                                                                  
+  3. Create database tables in Supabase (run the SQL schema)                                                                                                                                                              
+  4. Add Supabase client to Next.js (.env.local)
+  5. Test DB connection locally
+
+  Phase 2: API
+  6. Build base API route structure (/app/api/...)
+  7. Implement /api/articles (GET all, GET by ID)
+  8. Implement /api/categories (GET)
+  9. Implement /api/articles POST (admin)
+  10. Add admin API key auth middleware
+  11. Test all endpoints locally with curl/Postman
+
+  Phase 3: Frontend - Core
+  12. Build Supabase client lib (lib/supabase.ts)
+  13. Create layouts + theme system (light/dark/high-contrast)
+  14. Build navigation/header (skip links, landmarks)
+  15. Build article list page + article card component
+  16. Build article detail page
+  17. Add category filter UI + API integration
+  18. Add search bar + search API integration
+  19. Build TTS player component (Web Speech API)
+  20. Implement font size controls
+
+  Phase 4: Additional Features
+  21. Build weather widget (calls weather API)
+  22. Build admin panel (CRUD UI) - if included in MVP
+
+  Phase 5: Integration & Polish
+  23. Connect crawler to local API for testing
+  24. Test all features end-to-end
+  25. Run accessibility audit (axe/Lighthouse)
+  26. Fix WCAG 2.2 AAA issues
+  27. Keyboard navigation test
+
+  Phase 6: Deployment
+  28. Push code to GitHub
+  29. Create Vercel project + link repo
+  30. Add Supabase env vars in Vercel dashboard
+  31. Deploy to production (vercel --prod)
+  32. Test production API endpoints
+  33. Update crawler to use production URLs
+  34. Deploy crawler to internal VMs
+  35. Verify end-to-end with real data
+
+  TODOs while developing:
+  - Frequent commits (after each component/test)
+  - Test after each feature
+  - Accessibility check per component
+
+<Suggested directory structures>
+* Need to support two langauges projects. 
+
+  bemyaccess.org/                                                                                                                                                                                                                  ├── app/                    # Next.js 14+ app router (TypeScript/React)
+  │   ├── api/               # API routes                                                                                                                                                                                        
+  │   ├── layout.tsx
+  │   ├── page.tsx
+  │   └── ...
+  ├── components/            # React components
+  │   ├── ui/               # Reusable UI components
+  │   ├── features/         # Feature-specific components
+  │   └── ...
+  ├── lib/                  # Shared utilities
+  │   ├── supabase.ts      # Supabase client
+  │   ├── utils.ts
+  │   └── ...
+  ├── public/              # Static assets
+  ├── styles/             # Global styles
+  ├── types/              # TypeScript type definitions
+  │
+  ├── crawler/             # Python crawler (separate module/package)
+  │   ├── src/            # Python source code
+  │   │   ├── crawlers/   # Individual crawler implementations
+  │   │   ├── models/     # Data models
+  │   │   ├── utils/      # Python utilities
+  │   │   └── main.py     # Entry point
+  │   ├── tests/
+  │   ├── requirements.txt
+  │   ├── .env.example
+  │   └── README.md
+  │
+  ├── .env.local           # Next.js env vars (Supabase, etc.)
+  ├── .env.crawler         # Python crawler env vars
+  ├── .gitignore
+  ├── next.config.js
+  ├── package.json         # Node dependencies
+  ├── tsconfig.json
+  ├── vercel.json          # Vercel deployment config
+  └── README.md
+
+  Key principles:
+  - Separation of concerns: Keep the Python crawler in its own directory at the project root, not inside the Next.js app
+  - Independent development: Each can be developed, tested, and deployed independently
+  - Clear boundaries: They communicate only via API calls (Next.js API + production URLs)
+  - Separate dependency management: package.json for Next.js, requirements.txt for Python
+  - Environment separation: Different .env files for each component
+
+  This structure makes it easy to:
+  - Develop both locally simultaneously
+  - Deploy independently (Vercel for Next.js, internal VMs for crawler)
+  - Keep codebases clean and maintainable
+  - Avoid mixing language ecosystems

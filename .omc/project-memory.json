@@ -1,0 +1,355 @@
+{
+  "version": "1.0.0",
+  "lastScanned": 1773612903469,
+  "projectRoot": "C:\\Users\\playl\\OneDrive\\Documents\\VSProjects\\bemyaccess.org",
+  "techStack": {
+    "languages": [],
+    "frameworks": [],
+    "packageManager": null,
+    "runtime": null
+  },
+  "build": {
+    "buildCommand": null,
+    "testCommand": null,
+    "lintCommand": null,
+    "devCommand": null,
+    "scripts": {}
+  },
+  "conventions": {
+    "namingStyle": null,
+    "importStyle": null,
+    "testPattern": null,
+    "fileOrganization": null
+  },
+  "structure": {
+    "isMonorepo": false,
+    "workspaces": [],
+    "mainDirectories": [],
+    "gitBranches": {
+      "defaultBranch": "main",
+      "branchingStrategy": null
+    }
+  },
+  "customNotes": [],
+  "directoryMap": {
+    "brainstorming": {
+      "path": "brainstorming",
+      "purpose": null,
+      "fileCount": 5,
+      "lastAccessed": 1773612903452,
+      "keyFiles": [
+        "functioning_shortcuts.md",
+        "ollama_settings",
+        "psh_memo.txt",
+        "sample_usecases.md",
+        "system-suggestions.md"
+      ]
+    },
+    "img": {
+      "path": "img",
+      "purpose": null,
+      "fileCount": 1,
+      "lastAccessed": 1773612903452,
+      "keyFiles": [
+        "favicon.png"
+      ]
+    }
+  },
+  "hotPaths": [
+    {
+      "path": "app\\layout.tsx",
+      "accessCount": 7,
+      "lastAccessed": 1773627573836,
+      "type": "file"
+    },
+    {
+      "path": "crawler\\src\\supabase_client.py",
+      "accessCount": 6,
+      "lastAccessed": 1773626390152,
+      "type": "file"
+    },
+    {
+      "path": "package.json",
+      "accessCount": 3,
+      "lastAccessed": 1773625651947,
+      "type": "file"
+    },
+    {
+      "path": "crawler\\src\\crawler_orchestrator.py",
+      "accessCount": 3,
+      "lastAccessed": 1773626242096,
+      "type": "file"
+    },
+    {
+      "path": "test_supabase.py",
+      "accessCount": 2,
+      "lastAccessed": 1773625623356,
+      "type": "file"
+    },
+    {
+      "path": "index.html",
+      "accessCount": 2,
+      "lastAccessed": 1773625686515,
+      "type": "file"
+    },
+    {
+      "path": "crawler\\config.py",
+      "accessCount": 2,
+      "lastAccessed": 1773626326078,
+      "type": "file"
+    },
+    {
+      "path": "crawler\\run.py",
+      "accessCount": 2,
+      "lastAccessed": 1773626326373,
+      "type": "file"
+    },
+    {
+      "path": "crawler\\src\\crawlers\\simple_crawler.py",
+      "accessCount": 2,
+      "lastAccessed": 1773626389841,
+      "type": "file"
+    },
+    {
+      "path": ".claude\\CLAUDE.md",
+      "accessCount": 1,
+      "lastAccessed": 1773620449504,
+      "type": "file"
+    },
+    {
+      "path": "tsconfig.json",
+      "accessCount": 1,
+      "lastAccessed": 1773625385509,
+      "type": "file"
+    },
+    {
+      "path": "next.config.js",
+      "accessCount": 1,
+      "lastAccessed": 1773625385782,
+      "type": "file"
+    },
+    {
+      "path": "tailwind.config.ts",
+      "accessCount": 1,
+      "lastAccessed": 1773625386058,
+      "type": "file"
+    },
+    {
+      "path": "app\\globals.css",
+      "accessCount": 1,
+      "lastAccessed": 1773625386313,
+      "type": "file"
+    },
+    {
+      "path": "app\\page.tsx",
+      "accessCount": 1,
+      "lastAccessed": 1773625386848,
+      "type": "file"
+    },
+    {
+      "path": "lib\\supabase.ts",
+      "accessCount": 1,
+      "lastAccessed": 1773625387112,
+      "type": "file"
+    },
+    {
+      "path": ".env.local",
+      "accessCount": 1,
+      "lastAccessed": 1773625387369,
+      "type": "file"
+    },
+    {
+      "path": ".env.crawler",
+      "accessCount": 1,
+      "lastAccessed": 1773625387631,
+      "type": "file"
+    },
+    {
+      "path": "crawler\\requirements.txt",
+      "accessCount": 1,
+      "lastAccessed": 1773625387897,
+      "type": "file"
+    },
+    {
+      "path": "crawler\\src\\models\\article.py",
+      "accessCount": 1,
+      "lastAccessed": 1773625388400,
+      "type": "file"
+    },
+    {
+      "path": "crawler\\src\\utils\\helpers.py",
+      "accessCount": 1,
+      "lastAccessed": 1773625388657,
+      "type": "file"
+    },
+    {
+      "path": "crawler\\src\\crawlers\\base_crawler.py",
+      "accessCount": 1,
+      "lastAccessed": 1773625388923,
+      "type": "file"
+    },
+    {
+      "path": "crawler\\src\\__init__.py",
+      "accessCount": 1,
+      "lastAccessed": 1773625389985,
+      "type": "file"
+    },
+    {
+      "path": "crawler\\src\\crawlers\\__init__.py",
+      "accessCount": 1,
+      "lastAccessed": 1773625390246,
+      "type": "file"
+    },
+    {
+      "path": "crawler\\src\\models\\__init__.py",
+      "accessCount": 1,
+      "lastAccessed": 1773625390519,
+      "type": "file"
+    },
+    {
+      "path": "crawler\\src\\utils\\__init__.py",
+      "accessCount": 1,
+      "lastAccessed": 1773625390787,
+      "type": "file"
+    },
+    {
+      "path": "crawler\\test_connection.py",
+      "accessCount": 1,
+      "lastAccessed": 1773625391331,
+      "type": "file"
+    },
+    {
+      "path": "next-env.d.ts",
+      "accessCount": 1,
+      "lastAccessed": 1773625391594,
+      "type": "file"
+    },
+    {
+      "path": "components\\ui\\ThemeProvider.tsx",
+      "accessCount": 1,
+      "lastAccessed": 1773625391861,
+      "type": "file"
+    },
+    {
+      "path": "components\\ui\\SkipLink.tsx",
+      "accessCount": 1,
+      "lastAccessed": 1773625392138,
+      "type": "file"
+    },
+    {
+      "path": "components\\ui\\ThemeToggle.tsx",
+      "accessCount": 1,
+      "lastAccessed": 1773625392425,
+      "type": "file"
+    },
+    {
+      "path": "database\\schema.sql",
+      "accessCount": 1,
+      "lastAccessed": 1773625392716,
+      "type": "file"
+    },
+    {
+      "path": ".eslintrc.js",
+      "accessCount": 1,
+      "lastAccessed": 1773625393031,
+      "type": "file"
+    },
+    {
+      "path": "postcss.config.js",
+      "accessCount": 1,
+      "lastAccessed": 1773625393348,
+      "type": "file"
+    },
+    {
+      "path": "app\\api\\articles\\[id]\\toggle-active\\route.ts",
+      "accessCount": 1,
+      "lastAccessed": 1773625639623,
+      "type": "file"
+    },
+    {
+      "path": "app\\api\\admin\\crawl\\trigger\\route.ts",
+      "accessCount": 1,
+      "lastAccessed": 1773625639909,
+      "type": "file"
+    },
+    {
+      "path": ".env.local.example",
+      "accessCount": 1,
+      "lastAccessed": 1773625640183,
+      "type": "file"
+    },
+    {
+      "path": "setup_database.py",
+      "accessCount": 1,
+      "lastAccessed": 1773625651652,
+      "type": "file"
+    },
+    {
+      "path": "components\\layout\\Header.tsx",
+      "accessCount": 1,
+      "lastAccessed": 1773625686789,
+      "type": "file"
+    },
+    {
+      "path": "components\\layout\\Footer.tsx",
+      "accessCount": 1,
+      "lastAccessed": 1773625687066,
+      "type": "file"
+    },
+    {
+      "path": "components\\features\\WeatherWidget.tsx",
+      "accessCount": 1,
+      "lastAccessed": 1773625687343,
+      "type": "file"
+    },
+    {
+      "path": "components\\layout\\SiteLayout.tsx",
+      "accessCount": 1,
+      "lastAccessed": 1773625687626,
+      "type": "file"
+    },
+    {
+      "path": ".eslintrc.json",
+      "accessCount": 1,
+      "lastAccessed": 1773625688175,
+      "type": "file"
+    },
+    {
+      "path": "components\\BookmarkProvider.tsx",
+      "accessCount": 1,
+      "lastAccessed": 1773625688477,
+      "type": "file"
+    },
+    {
+      "path": "components\\features\\BookmarkButton.tsx",
+      "accessCount": 1,
+      "lastAccessed": 1773625689363,
+      "type": "file"
+    },
+    {
+      "path": "components\\features\\BookmarkPage.tsx",
+      "accessCount": 1,
+      "lastAccessed": 1773625689654,
+      "type": "file"
+    },
+    {
+      "path": "app\\bookmarks\\page.tsx",
+      "accessCount": 1,
+      "lastAccessed": 1773625689942,
+      "type": "file"
+    },
+    {
+      "path": "app\\articles\\[id]\\page.tsx",
+      "accessCount": 1,
+      "lastAccessed": 1773625712836,
+      "type": "file"
+    },
+    {
+      "path": "PROJECT_SETUP.md",
+      "accessCount": 1,
+      "lastAccessed": 1773625713116,
+      "type": "file"
+    }
+  ],
+  "userDirectives": []
+}

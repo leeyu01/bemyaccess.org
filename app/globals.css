@@ -1,0 +1,67 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --foreground-rgb: 26, 26, 26;
+  --background-rgb: 255, 255, 255;
+  --accent-rgb: 255, 107, 0;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --foreground-rgb: 245, 245, 245;
+    --background-rgb: 18, 18, 18;
+  }
+}
+
+body {
+  color: rgb(var(--foreground-rgb));
+  background-color: rgb(var(--background-rgb));
+  font-size: 18px;
+  line-height: 1.6;
+}
+
+/* High contrast mode */
+.high-contrast {
+  --foreground-rgb: 0, 0, 0;
+  --background-rgb: 255, 255, 255;
+  --accent-rgb: 255, 107, 0;
+}
+
+/* Focus indicators - must meet 7:1 contrast */
+:focus-visible {
+  outline: 3px solid #FF6B00;
+  outline-offset: 2px;
+}
+
+/* Skip link for accessibility */
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 0;
+  background: #000;
+  color: white;
+  padding: 8px;
+  z-index: 100;
+}
+
+.skip-link:focus {
+  top: 0;
+}
+
+/* Ensure 44x44px minimum touch targets */
+button,
+[role="button"],
+input,
+select,
+textarea {
+  min-height: 44px;
+  min-width: 44px;
+}
+
+/* No horizontal scroll */
+html, body {
+  overflow-x: hidden;
+  max-width: 100vw;
+}
