@@ -338,7 +338,7 @@ TODO: probably need to rebuild below structures.
 - **Database**: Supabase (PostgreSQL) via `@supabase/supabase-js`
 - **Crawler**: Python 3.x with `feedparser`, `requests`, `psycopg2` (or Supabase Python client)
 - **Linting**: `ESLint` (TypeScript), `flake8` (Python)
-- **Styling**: Tailwind CSS utilities only — no inline styles
+- **Styling**: Tailwind CSS utilities only — no inline styles) and ShadCn
 - **Hosting**: Vercel (frontend + API) / Internal VMs (crawler)
 
 ### Writing Effective Claude Code Prompts
