@@ -227,7 +227,7 @@
 
 <script>
 // ── Mock Data ──────────────────────────────────────────
-const articles = [
+const SAMPLE_ARTICLES = [
   {
     id:1, category:"Local News", source:"Newsday",
     published:"March 14, 2025",
@@ -286,6 +286,8 @@ const articles = [
   }
 ];
 
+let articles = SAMPLE_ARTICLES;   // replaced by articles.json when it loads
+
 // ── State ──────────────────────────────────────────────
 let currentCat = "all";
 let currentSearch = "";
@@ -306,6 +308,12 @@ function cycleTheme() {
   document.getElementById("theme-icon").textContent = themeIcons[themeIdx];
   document.getElementById("theme-text").textContent = themeLabels[themeIdx];
 }
+
+// ── Safety helpers (crawled text is untrusted) ────────
+function esc(v) {
+  return String(v == null ? "" : v).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+}
+function safeUrl(u) { return /^https?:\/\//i.test(String(u || "")) ? u : ""; }
 
 // ── Badge helper ──────────────────────────────────────
 function badgeClass(cat) {
@@ -347,15 +355,15 @@ function renderArticles() {
   }
   grid.innerHTML = filtered.map(a => `
     <article class="article-card" role="listitem" tabindex="0"
-      onclick="showDetail(${a.id})"
-      onkeydown="if(event.key==='Enter'||event.key===' '){showDetail(${a.id});event.preventDefault()}"
-      aria-label="${a.title}">
-      <div class="card-title">${a.title}</div>
-      <div class="card-summary">${a.summary}</div>
+      onclick="showDetail(${Number(a.id)})"
+      onkeydown="if(event.key==='Enter'||event.key===' '){showDetail(${Number(a.id)});event.preventDefault()}"
+      aria-label="${esc(a.title)}">
+      <div class="card-title">${esc(a.title)}</div>
+      <div class="card-summary">${esc(a.summary)}</div>
       <div class="card-meta">
-        <span class="card-date">${a.published}</span>
+        <span class="card-date">${esc(a.published)}</span>
         <span class="card-sep">|</span>
-        <span class="badge ${badgeClass(a.category)}" aria-label="Category: ${a.category}">${badgeLabel(a.category)}</span>
+        <span class="badge ${badgeClass(a.category)}" aria-label="Category: ${esc(a.category)}">${esc(badgeLabel(a.category))}</span>
       </div>
     </article>
   `).join("");
@@ -370,16 +378,16 @@ function showDetail(id) {
   const dp = document.getElementById("detail-page");
   dp.classList.add("visible");
   document.getElementById("detail-meta").innerHTML = `
-    <span class="badge ${badgeClass(currentArticle.category)}">${badgeLabel(currentArticle.category)}</span>
-    <span class="card-source">${currentArticle.source}</span>
-    <span class="card-date">${currentArticle.published}</span>
+    <span class="badge ${badgeClass(currentArticle.category)}">${esc(badgeLabel(currentArticle.category))}</span>
+    <span class="card-source">${esc(currentArticle.source)}</span>
+    <span class="card-date">${esc(currentArticle.published)}</span>
   `;
   document.getElementById("detail-heading").textContent = currentArticle.title;
   document.getElementById("detail-byline").textContent = `Source: ${currentArticle.source} · ${currentArticle.published}`;
-  document.getElementById("detail-body").innerHTML = currentArticle.body;
+  document.getElementById("detail-body").innerHTML = currentArticle.body;   // crawler writes escaped <p> paragraphs only
   document.getElementById("detail-body").style.fontSize = bodyFontSize + "rem";
-  document.getElementById("detail-source").innerHTML = currentArticle.url
-    ? `Original source: <a href="${currentArticle.url}" target="_blank" rel="noopener noreferrer">${currentArticle.source} ↗</a>`
+  document.getElementById("detail-source").innerHTML = safeUrl(currentArticle.url)
+    ? `Original source: <a href="${esc(currentArticle.url)}" target="_blank" rel="noopener noreferrer">${esc(currentArticle.source)} ↗</a>`
     : "";
   document.getElementById("tts-btn").textContent = "▶ Play";
   document.getElementById("tts-status").textContent = "";
@@ -412,7 +420,8 @@ function toggleTTS() {
 function startTTS() {
   if(!currentArticle) return;
   window.speechSynthesis.cancel();
-  const text = currentArticle.title + ". " + currentArticle.body.replace(/<[^>]+>/g," ").replace(/\s+/g," ").trim();
+  const plain = new DOMParser().parseFromString(currentArticle.body, "text/html").body.textContent || "";
+  const text = currentArticle.title + ". " + plain.replace(/\s+/g," ").trim();
   ttsUtter = new SpeechSynthesisUtterance(text);
   ttsUtter.rate = ttsSpeed;
   ttsUtter.lang = "en-US";
@@ -446,7 +455,17 @@ function setSpeed(s, btn) {
 }
 
 // ── Init ───────────────────────────────────────────────
-renderArticles();
+// The crawler keeps articles.json up to date. If it is missing or empty, the sample articles above are shown.
+async function loadArticles() {
+  try {
+    const r = await fetch("articles.json", {cache: "no-cache"});
+    if (!r.ok) throw new Error("HTTP " + r.status);
+    const data = await r.json();
+    if (Array.isArray(data) && data.length) articles = data;
+  } catch (e) { /* keep sample articles */ }
+  renderArticles();
+}
+loadArticles();
 </script>
 </body>
 </html>
