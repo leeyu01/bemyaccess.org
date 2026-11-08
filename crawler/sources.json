@@ -1,0 +1,47 @@
+{
+  "repo_path": "C:\\projects\\bemyaccess.org",
+  "branch": "main",
+  "retention_days": 365,
+  "sources": [
+    {
+      "name": "Suffolk County Government",
+      "category": "Local News",
+      "pages": ["https://www.suffolkcountyny.gov/"],
+      "feed": "https://www.suffolkcountyny.gov/Elected-Officials/County-Executive/ctl/rss/mid/2624",
+      "max_articles": 15,
+      "enabled": true
+    },
+    {
+      "name": "VISIONS Services for the Blind",
+      "category": "News for the Disabled",
+      "pages": ["https://visionsvcb.org/"],
+      "max_articles": 10,
+      "enabled": true
+    },
+    {
+      "name": "SILO Independent Living",
+      "category": "News for the Disabled",
+      "pages": ["https://www.siloinc.org/"],
+      "max_articles": 10,
+      "enabled": true
+    },
+    {
+      "name": "VIPS Long Island",
+      "category": "News for the Disabled",
+      "pages": ["http://www.vips-li.org/"],
+      "enabled": false
+    },
+    {
+      "name": "Helen Keller Services",
+      "category": "News for the Disabled",
+      "pages": ["https://www.helenkeller.org/hksb"],
+      "enabled": false
+    },
+    {
+      "name": "Eastern Suffolk BOCES",
+      "category": "Local News",
+      "pages": ["https://www.esboces.org"],
+      "enabled": false
+    }
+  ]
+}
